@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "1003031731988",
+    "firebase_url": "https://akane-reddit.firebaseio.com",
+    "project_id": "akane-reddit",
+    "storage_bucket": "akane-reddit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003031731988:android:196a3b6dbcbecf04",
+        "android_client_info": {
+          "package_name": "app.akane"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003031731988-lkcg83k7ks11iik4t7asjlpdlpol8rod.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.akane",
+            "certificate_hash": "6cf1b2b00b6eeae4fb9bdfecfeb9b2335110fdfc"
+          }
+        },
+        {
+          "client_id": "1003031731988-7jcj9lgqn2069i4k83k5n7t2t8nq8lkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL3hfc1aarohNVDPLhZS1rbNYIwggwOyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003031731988-7jcj9lgqn2069i4k83k5n7t2t8nq8lkv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003031731988:android:0241df87fb80ee01",
+        "android_client_info": {
+          "package_name": "dev.amr.travelmantics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003031731988-7jcj9lgqn2069i4k83k5n7t2t8nq8lkv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL3hfc1aarohNVDPLhZS1rbNYIwggwOyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003031731988-7jcj9lgqn2069i4k83k5n7t2t8nq8lkv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
