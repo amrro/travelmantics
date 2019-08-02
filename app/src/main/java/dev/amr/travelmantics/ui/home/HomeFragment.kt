@@ -1,6 +1,5 @@
 package dev.amr.travelmantics.ui.home
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,16 +14,15 @@ import dev.amr.travelmantics.databinding.HomeFragmentBinding
 import dev.amr.travelmantics.ui.DataViewModel
 import dev.amr.travelmantics.ui.RetryCallback
 
-
 class HomeFragment : Fragment() {
 
     private val model: DataViewModel by navGraphViewModels(R.id.nav_graph_xml)
     private lateinit var binding: HomeFragmentBinding
     private lateinit var adapter: DealsAdapter
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
@@ -54,5 +52,4 @@ class HomeFragment : Fragment() {
             }
         })
     }
-
 }

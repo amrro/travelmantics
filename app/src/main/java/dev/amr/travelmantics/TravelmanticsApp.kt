@@ -4,7 +4,7 @@ import android.app.Application
 import com.google.firebase.firestore.FirebaseFirestore
 import timber.log.Timber
 
-class TravelmanticsApp: Application() {
+class TravelmanticsApp : Application() {
 
     override fun onCreate() {
         super.onCreate()

@@ -12,7 +12,6 @@ import dev.amr.travelmantics.data.Result
  */
 object BindingAdapters {
 
-
     @JvmStatic
     @BindingAdapter("showViewIf")
     fun showHide(view: View, show: Boolean) {
@@ -27,7 +26,6 @@ object BindingAdapters {
         }
     }
 
-
     @JvmStatic
     @BindingAdapter("imageUrl")
     fun imageUrl(imageView: ImageView, url: String) {
@@ -37,6 +35,4 @@ object BindingAdapters {
                 .into(imageView)
         }
     }
-
-
 }

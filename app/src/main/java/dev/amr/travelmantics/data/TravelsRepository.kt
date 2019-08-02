@@ -10,7 +10,7 @@ import kotlin.coroutines.suspendCoroutine
 class TravelsRepository : DataSource {
     private val db: FirebaseFirestore = Firebase.firestore
 
-    override suspend fun getDeals(): Result<List<Deal>>  =
+    override suspend fun getDeals(): Result<List<Deal>> =
         suspendCoroutine { cont ->
             db.collection("deals")
                 .get()

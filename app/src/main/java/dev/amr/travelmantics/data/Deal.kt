@@ -2,8 +2,6 @@ package dev.amr.travelmantics.data
 
 import com.google.firebase.firestore.DocumentId
 
-
-
 data class Deal(
     @DocumentId
     val id: String,

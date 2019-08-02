@@ -32,8 +32,6 @@ class DealsAdapter(
                 this.deal?.let { onClick?.invoke(it) }
             }
         }
-
-
     }
 
     override fun bind(binding: DealItemBinding, item: Deal) {

@@ -7,7 +7,7 @@ import dev.amr.travelmantics.data.Result
 import dev.amr.travelmantics.data.Deal
 import dev.amr.travelmantics.data.TravelsRepository
 
-class DataViewModel: ViewModel() {
+class DataViewModel : ViewModel() {
 
     // TODO: handle coroutine scope.
 
