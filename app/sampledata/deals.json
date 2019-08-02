@@ -1,0 +1,32 @@
+{
+  "deals": [
+    {
+      "id": "2398fh89f2",
+      "title": "Table Mountain National Park",
+      "price": 500,
+      "description": "Massive Table Mountain National Park stretches from north of Cape Town down the Cape Peninsula to Africa’s southwestern extremity, the Cape of Good Hope. Iconic, flat-topped Table Mountain is its centerpiece. The mountain’s 1,086m summit affords sweeping views of Cape Town and Table Bay, and is reachable by cableway, bicycle, automobile or on foot. The park is also among the world’s richest floral regions.",
+      "imageUrl": "https://www.worldatlas.com/r/w728-h425-c728x425/upload/c5/17/2a/shutterstock-188637683.jpg"
+    },
+    {
+      "id": "54245ggdrg",
+      "title": "Kruger National Park",
+      "price": 1000,
+      "description": "Kruger National Park, in northeastern South Africa, is one of Africa’s largest game reserves. Its high density of wild animals includes the Big 5: lions, leopards, rhinos, elephants and buffalos. Hundreds of other mammals make their home here, as do diverse bird species such as vultures, eagles and storks. Mountains, bush plains and tropical forests are all part of the landscape.",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Kruger_Zebra.JPG"
+    },
+    {
+      "id": "344tgv5ytrh",
+      "title": "Valley of the Kings",
+      "price": 750,
+      "description": "The Valley of the Kings, also known as the Valley of the Gates of the Kings, is a valley in Egypt where, for a period of nearly 500 years from the 16th to 11th century BC, rock cut tombs were excavated for the pharaohs and powerful nobles of the New Kingdom.",
+      "imageUrl": "https://media-cdn.tripadvisor.com/media/photo-s/0e/85/09/42/hatshepsut-temple-valley.jpg"
+    },
+    {
+      "id": "3478iuyjhgn",
+      "title": "Mount Kilimanjaro",
+      "price": 1050,
+      "description": "Mount Kilimanjaro or just Kilimanjaro, with its three volcanic cones, \"Kibo\", \"Mawenzi\", and \"Shira\", is a dormant volcano in Tanzania. It is the highest mountain in Africa, with its summit about 4,900 metres from its base, and 5,895 metres above sea level.",
+      "imageUrl": "https://media-cdn.tripadvisor.com/media/photo-s/0e/85/09/42/hatshepsut-temple-valley.jpg"
+    }
+  ]
+}

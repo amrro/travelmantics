@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="dev.amr.travelmantics.home.HomeFragment"
-        android:label="home_fragment"
+        android:name="dev.amr.travelmantics.ui.home.HomeFragment"
+        android:label="Discover"
         tools:layout="@layout/home_fragment" />
 </navigation>

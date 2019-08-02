@@ -3,8 +3,8 @@ package dev.amr.travelmantics.data
 
 interface DataSource {
 
-    suspend fun getTravels(): Result<List<Travel>>
+    suspend fun getDeals(): Result<List<Deal>>
 
-    suspend fun newTravel(travel: Travel) : Result<Boolean>
+    suspend fun newDeal(deal: Deal) : Result<Boolean>
 
 }

@@ -1,16 +1,17 @@
 package dev.amr.travelmantics.data
 
 import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.IgnoreExtraProperties
 
-@IgnoreExtraProperties
-data class Travel(
+
+
+data class Deal(
     @DocumentId
     val id: String,
     val title: String,
-    val points: Int = 0,
-    val location: String,
-    val imageURL: String
+    val price: Int = 0,
+    val description: String,
+    val imageUrl: String
 ) {
+    @Suppress("unused")
     constructor() : this("", "", 0, "", "")
 }
