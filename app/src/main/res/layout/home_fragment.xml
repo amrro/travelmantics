@@ -6,8 +6,9 @@
     <data>
 
         <variable
-            name="retryCallbacks"
-            type="dev.amr.travelmantics.ui.RetryCallback" />
+            name="handler"
+            type="dev.amr.travelmantics.ui.home.HomeFragment.HomeFragmentHandler" />
+
 
         <variable
             name="result"
@@ -40,10 +41,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:onClick="@{() -> handler.addNewDeal()}"
             android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="#3C7080" />
+            app:rippleColor="#3C7080"
+            android:focusable="true" />
 
         <include
             layout="@layout/error_loading"
@@ -54,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:result="@{result}"
-            app:retryCallbacks="@{retryCallbacks}" />
+            app:handler="@{handler}" />
 
         <include
             layout="@layout/loading"

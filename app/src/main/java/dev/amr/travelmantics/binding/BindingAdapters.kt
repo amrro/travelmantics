@@ -1,6 +1,8 @@
 package dev.amr.travelmantics.binding
 
+import android.net.Uri
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -12,10 +14,30 @@ import dev.amr.travelmantics.data.Result
  */
 object BindingAdapters {
 
+    /**
+     * Makes the View [View.INVISIBLE] unless the condition is met.
+     */
+    @Suppress("unused")
+    @BindingAdapter("invisibleUnless")
     @JvmStatic
-    @BindingAdapter("showViewIf")
-    fun showHide(view: View, show: Boolean) {
-        view.visibility = if (show) View.VISIBLE else View.GONE
+    fun invisibleUnless(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+    }
+
+    /**
+     * Makes the View [View.GONE] unless the condition is met.
+     */
+    @Suppress("unused")
+    @BindingAdapter("goneUnless")
+    @JvmStatic
+    fun goneUnless(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter("loseFocusWhen")
+    @JvmStatic
+    fun loseFocusWhen(view: EditText, condition: Boolean) {
+        if (condition) view.clearFocus()
     }
 
     @JvmStatic
@@ -32,6 +54,16 @@ object BindingAdapters {
         if (url.isNotEmpty()) {
             Picasso.Builder(imageView.context).build()
                 .load(url)
+                .into(imageView)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("imageUri")
+    fun imageUri(imageView: ImageView, uri: Uri?) {
+        uri?.let {
+            Picasso.Builder(imageView.context).build()
+                .load(uri)
                 .into(imageView)
         }
     }

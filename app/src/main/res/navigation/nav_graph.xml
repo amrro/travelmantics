@@ -9,5 +9,16 @@
         android:id="@+id/homeFragment"
         android:name="dev.amr.travelmantics.ui.home.HomeFragment"
         android:label="Discover"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment">
+
+        <action
+            android:id="@+id/to_add_deal_fragment"
+            app:destination="@id/add_deal_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_deal_fragment"
+        android:name="dev.amr.travelmantics.ui.adddeal.AddDealFragment"
+        android:label="Add New Deal" />
 </navigation>

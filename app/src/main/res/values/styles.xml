@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="TravelTheme.TextInputLayout.FilledBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxCornerRadiusTopStart">@dimen/round_corner</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/round_corner</item>
+    </style>
+
+
 </resources>

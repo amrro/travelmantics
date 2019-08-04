@@ -8,8 +8,8 @@
         <import type="dev.amr.travelmantics.data.Result" />
 
         <variable
-            name="retryCallbacks"
-            type="dev.amr.travelmantics.ui.RetryCallback" />
+            name="handler"
+            type="dev.amr.travelmantics.ui.home.HomeFragment.HomeFragmentHandler" />
 
         <variable
             name="result"
@@ -18,7 +18,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        showViewIf="@{result instanceof Result.Error}"
+        goneUnless="@{result instanceof Result.Error}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -61,7 +61,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:ellipsize="end"
-            android:onClick="@{() -> retryCallbacks.retry()}"
+            android:onClick="@{() -> handler.retry()}"
             android:text="@string/retry"
             app:icon="@drawable/ic_reloading_black_24dp"
             app:iconPadding="16dp"

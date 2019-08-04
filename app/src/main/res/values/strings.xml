@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Travelmantics</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="retry">Retry</string>
+
+    <string name="progress_uploading">Uploading…</string>
+    <string name="upload_success">Image Upload finished Successfully! 🚀</string>
+    <string name="upload_failure">Image Uploading failed to upload the image 🚧. Please try to upload the deal again.</string>
+
+
+    <string name="new_deal_success">The new deal: %1$s add successfully 👍.</string>
+    <string name="new_deal_failure">The deal: %1$s failed to be added 🚧.</string>
 </resources>
