@@ -28,13 +28,14 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
 
         binding.handler = object : HomeFragmentHandler {
-            override fun retry() {
-                loadDeals()
-            }
+            override fun retry() = loadDeals()
 
-            override fun addNewDeal() {
+            override fun addNewDeal() =
                 findNavController().navigate(HomeFragmentDirections.toAddDealFragment())
-            }
+        }
+
+        binding.swipeToRefresh.setOnRefreshListener {
+            loadDeals()
         }
         adapter = DealsAdapter()
         binding.dealsList.adapter = adapter
