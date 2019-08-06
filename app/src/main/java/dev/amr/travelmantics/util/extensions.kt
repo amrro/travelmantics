@@ -17,7 +17,6 @@ inline fun Fragment.toast(message: String, duration: Int = Toast.LENGTH_LONG) {
     ).show()
 }
 
-
 /**
  * Display the Snackbar with the [Snackbar.LENGTH_SHORT] duration.
  *
@@ -29,7 +28,6 @@ inline fun View.snackbar(message: CharSequence, duration: Int = Snackbar.LENGTH_
         .make(this, message, duration)
         .apply { show() }
 
-
 /**
  * Display the Snackbar with the [Snackbar.LENGTH_SHORT] duration.
  *
@@ -40,8 +38,6 @@ inline fun View.snackbar(@StringRes message: Int, duration: Int = Snackbar.LENGT
     Snackbar
         .make(this, message, duration)
         .apply { show() }
-
-
 
 /**
  * Display Snackbar with the [Snackbar.LENGTH_LONG] duration.

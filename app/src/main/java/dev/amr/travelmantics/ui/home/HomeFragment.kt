@@ -17,7 +17,7 @@ class HomeFragment : Fragment() {
 
     private val model: DataViewModel by navGraphViewModels(R.id.nav_graph_xml)
     private lateinit var binding: HomeFragmentBinding
-    private val adapter: DealsAdapter  = DealsAdapter()
+    private val adapter: DealsAdapter = DealsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

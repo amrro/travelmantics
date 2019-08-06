@@ -29,7 +29,6 @@ class AuthManager(
         AuthUI.IdpConfig.GoogleBuilder().build()
     )
 
-
     /**
      * This method launches UI to auth user using their preferred provider like Email, Google.
      *
@@ -52,7 +51,6 @@ class AuthManager(
         )
     }
 
-
     /**
      * This method should be called inside overridden [Activity.onActivityResult], to handle
      * authentication result.
@@ -74,7 +72,6 @@ class AuthManager(
             // Successfully signed in
             if (resultCode == Activity.RESULT_OK) {
                 action.invoke(true, null)
-
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -89,8 +86,6 @@ class AuthManager(
     fun userEmail(): String? {
         return auth.currentUser?.email
     }
-
-
 
     fun signOut(): LiveData<Result<Boolean>> = liveData(Dispatchers.IO) {
         emit(startSignOut())
