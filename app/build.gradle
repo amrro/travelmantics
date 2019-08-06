@@ -4,6 +4,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/amrro/Developer/Keys/travelmantics/travelmantics-key')
+            storePassword '1234567890'
+            keyAlias = 'travelmantics-key'
+            keyPassword '1234567890'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
     defaultConfig {
@@ -22,7 +30,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -70,4 +78,3 @@ dependencies {
 
 
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'kotlin-android-extensions'
