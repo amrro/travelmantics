@@ -24,9 +24,10 @@ class UploaderWorker(
     workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
+    private val context = applicationContext
     private val storage = FirebaseStorage.getInstance().reference
     private val notificationManager by lazy {
-        applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     override suspend fun doWork(): Result {
@@ -38,7 +39,7 @@ class UploaderWorker(
     private suspend fun uploadImageFromURI(fileUri: Uri): Result = suspendCoroutine { cont ->
         Timber.d("uploadImageFromURI:src:$fileUri")
 
-        showProgressNotification(applicationContext.getString(R.string.progress_uploading), 0, 0)
+        showProgressNotification(context.getString(R.string.progress_uploading), 0, 0)
 
         // Get a reference to store file at photos/<FILENAME>.jpg
         val photoRef = storage.child("deals")
@@ -48,7 +49,7 @@ class UploaderWorker(
         Timber.d("uploadImageFromURI:dst:%s", photoRef.path)
         photoRef.putFile(fileUri).addOnProgressListener { taskSnapshot ->
             showProgressNotification(
-                applicationContext.getString(R.string.progress_uploading),
+                context.getString(R.string.progress_uploading),
                 taskSnapshot.bytesTransferred,
                 taskSnapshot.totalByteCount
             )
@@ -105,7 +106,7 @@ class UploaderWorker(
             CHANNEL_ID_DEFAULT
         )
             .setSmallIcon(R.drawable.ic_send_black_24dp)
-            .setContentTitle(applicationContext.getString(R.string.app_name))
+            .setContentTitle(context.getString(R.string.app_name))
             .setContentText(caption)
             .setProgress(100, percentComplete, false)
             .setOngoing(true)
@@ -133,7 +134,7 @@ class UploaderWorker(
             CHANNEL_ID_DEFAULT
         )
             .setSmallIcon(icon)
-            .setContentTitle(applicationContext.getString(R.string.app_name))
+            .setContentTitle(context.getString(R.string.app_name))
             .setContentText(caption)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -154,7 +155,7 @@ class UploaderWorker(
 
         val success = downloadUrl != null
         val caption =
-            if (success) applicationContext.getString(R.string.upload_success) else applicationContext.getString(
+            if (success) context.getString(R.string.upload_success) else context.getString(
                 R.string.upload_failure
             )
         showFinishedNotification(caption, intent/*, success*/)

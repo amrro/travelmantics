@@ -28,6 +28,8 @@ subprojects {
         kotlinOptions.allWarningsAsErrors = true
     }
 
+
+    // Enable spotless for kotlin formatting.
     apply plugin: 'com.diffplug.gradle.spotless'
     spotless {
         kotlin {

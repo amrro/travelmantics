@@ -11,6 +11,9 @@
             name="handler"
             type="dev.amr.travelmantics.ui.home.HomeFragment.HomeFragmentHandler" />
 
+        <variable
+            name="isUserSigned"
+            type="Boolean" />
 
         <variable
             name="result"
@@ -53,6 +56,7 @@
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
+            invisibleUnless="@{isUserSigned}"
             android:onClick="@{() -> handler.addNewDeal()}"
             android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
