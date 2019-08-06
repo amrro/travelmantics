@@ -13,4 +13,10 @@
     <string name="prompt_already_login">%1$s already signed in!</string>
     <string name="prompt_failed_to_login">Failed to login. Reason: %1$s</string>
     <string name="prompt_sign_out">Sign out?</string>
+
+    <string name="prompt_add_image">Add Image</string>
+    <string name="prompt_change_image">Change Image</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_price">Price</string>
+    <string name="hint_description">Description</string>
 </resources>

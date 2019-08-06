@@ -50,18 +50,18 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_deal"
+            style="@style/TravelTheme.FloatingActionButton"
+            showFABUnless="@{isUserSigned}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            invisibleUnless="@{isUserSigned}"
             android:onClick="@{() -> handler.addNewDeal()}"
             android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="#3C7080" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <include
             layout="@layout/error_loading"

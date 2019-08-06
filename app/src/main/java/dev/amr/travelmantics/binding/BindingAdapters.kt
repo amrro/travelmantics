@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import dev.amr.travelmantics.data.Result
 
@@ -32,6 +33,13 @@ object BindingAdapters {
     @JvmStatic
     fun goneUnless(view: View, visible: Boolean) {
         view.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    @JvmStatic
+    @BindingAdapter("showFABUnless")
+    fun showFABUnless(fab: FloatingActionButton, show: Boolean) {
+        if (show) fab.show()
+        else fab.hide()
     }
 
     @BindingAdapter("loseFocusWhen")

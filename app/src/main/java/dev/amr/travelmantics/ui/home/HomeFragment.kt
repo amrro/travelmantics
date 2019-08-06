@@ -38,11 +38,8 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(HomeFragmentDirections.toAddDealFragment())
         }
 
-        binding.swipeToRefresh.setOnRefreshListener {
-            loadDeals()
-        }
+        binding.swipeToRefresh.setOnRefreshListener { loadDeals() }
         binding.dealsList.adapter = adapter
-
         checkUser()
 
         return binding.root

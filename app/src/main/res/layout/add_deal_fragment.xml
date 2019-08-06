@@ -35,7 +35,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:hint="Title"
+            android:hint="@string/hint_title"
             app:boxCornerRadiusTopEnd="@dimen/round_corner"
             app:boxCornerRadiusTopStart="@dimen/round_corner"
             app:endIconDrawable="@drawable/ic_location_city_black_24dp"
@@ -62,7 +62,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Price"
+            android:hint="@string/hint_price"
             app:endIconDrawable="@drawable/ic_money_black_24dp"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="@+id/title"
@@ -85,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Description"
+            android:hint="@string/hint_description"
             app:layout_constraintEnd_toEndOf="@+id/price"
             app:layout_constraintStart_toStartOf="@+id/price"
             app:layout_constraintTop_toBottomOf="@id/price">
@@ -106,8 +106,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Add new Image"
-            app:icon="@drawable/ic_add_black_24dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@{dealModel.imageReady ? @string/prompt_change_image : @string/prompt_add_image}"
+            app:icon="@drawable/ic_add_photo_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.02"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,6 +117,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_save_deal"
+            style="@style/TravelTheme.FloatingActionButton"
             invisibleUnless="@{dealModel.areInputsReady}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,17 +131,18 @@
             app:rippleColor="#3C7080" />
 
         <ImageView
-            imageUri="@{imageUri}"
             android:id="@+id/imageView"
+            imageUri="@{imageUri}"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:layout_marginTop="16dp"
             android:cropToPadding="true"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_image_button"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
