@@ -11,5 +11,4 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         method = "setRefreshing"
     )
 )
-class TravelmaanticsBindingMethods {
-}
+class TravelmaanticsBindingMethods

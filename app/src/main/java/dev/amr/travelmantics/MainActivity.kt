@@ -46,11 +46,14 @@ class MainActivity : AppCompatActivity() {
                 if (!authManager.isUserLoggedIn) {
                     authManager.authUser()
                 } else {
+                    binding.toolbar.snackbar(
+                        getString(
+                            R.string.prompt_already_login,
+                            authManager.userEmail() ?: "You're "
+                        ),
+                        R.string.prompt_sign_out
+                    ) { signOut() }
                 }
-                binding.toolbar.snackbar(
-                    getString(R.string.prompt_already_login, authManager.userEmail() ?: "You're "),
-                    R.string.prompt_sign_out
-                ) { signOut() }
                 true
             }
             else -> super.onOptionsItemSelected(item)
