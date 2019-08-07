@@ -1,13 +1,9 @@
 package dev.amr.travelmantics.worker
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -15,20 +11,18 @@ import androidx.work.workDataOf
 import com.google.firebase.storage.FirebaseStorage
 import dev.amr.travelmantics.MainActivity
 import dev.amr.travelmantics.R
+import dev.amr.travelmantics.util.Notifier
 import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class UploaderWorker(
+class ImageUploaderWorker(
     context: Context,
     workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
     private val context = applicationContext
     private val storage = FirebaseStorage.getInstance().reference
-    private val notificationManager by lazy {
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
 
     override suspend fun doWork(): Result {
         val fileUri = inputData.getString(KEY_IMAGE_URI)?.toUri()
@@ -77,22 +71,8 @@ class UploaderWorker(
         }
     }
 
-    private fun createDefaultChannel() {
-        // Notification channel is added since android Oreo. TODO: Go buy some.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID_DEFAULT,
-                "Default",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
     /**
      * Show notification with a progress bar.
-     *
-     * TODO: add "Cancel" Option
      */
     private fun showProgressNotification(caption: String, completedUnits: Long, totalUnits: Long) {
         var percentComplete = 0
@@ -100,19 +80,16 @@ class UploaderWorker(
             percentComplete = (100 * completedUnits / totalUnits).toInt()
         }
 
-        createDefaultChannel()
-        val builder = NotificationCompat.Builder(
-            applicationContext,
-            CHANNEL_ID_DEFAULT
-        )
-            .setSmallIcon(R.drawable.ic_send_black_24dp)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setContentText(caption)
-            .setProgress(100, percentComplete, false)
-            .setOngoing(true)
-            .setAutoCancel(false)
-
-        notificationManager.notify(PROGRESS_NOTIFICATION_ID, builder.build())
+        Notifier
+            .progressable(
+                context,
+                100, percentComplete
+            ) {
+                notificationId = PROGRESS_NOTIFICATION_ID
+                contentTitle = context.getString(R.string.app_name)
+                contentText = caption
+                smallIcon = R.drawable.notif_add_a_photo_blue_24dp
+            }
     }
 
     /**
@@ -125,21 +102,11 @@ class UploaderWorker(
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        // TODO: pick icons
-        val icon = R.drawable.ic_location_city_black_24dp
-
-        createDefaultChannel()
-        val builder = NotificationCompat.Builder(
-            applicationContext,
-            CHANNEL_ID_DEFAULT
-        )
-            .setSmallIcon(icon)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setContentText(caption)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-
-        notificationManager.notify(FINISHED_NOTIFICATION_ID, builder.build())
+        Notifier.show(context) {
+            contentTitle = applicationContext.getString(R.string.app_name)
+            contentText = caption
+            this.pendingIntent = pendingIntent
+        }
     }
 
     /**
@@ -147,7 +114,8 @@ class UploaderWorker(
      */
     private fun showUploadFinishedNotification(downloadUrl: Uri?) {
         // Hide the progress notification
-        dismissProgressNotification()
+        Notifier
+            .dismissNotification(context, PROGRESS_NOTIFICATION_ID)
 
         // Make Intent to MainActivity
         val intent = Intent(applicationContext, MainActivity::class.java)
@@ -161,20 +129,12 @@ class UploaderWorker(
         showFinishedNotification(caption, intent/*, success*/)
     }
 
-    /**
-     * Dismiss the progress notification.
-     */
-    private fun dismissProgressNotification() {
-        notificationManager.cancel(PROGRESS_NOTIFICATION_ID)
-    }
 
     companion object {
 
         const val KEY_IMAGE_URI: String = "key-image-uri"
         const val KEY_UPLOADED_URI: String = "key-uploaded-uri"
-        private const val CHANNEL_ID_DEFAULT = "default"
 
         internal const val PROGRESS_NOTIFICATION_ID = 0
-        internal const val FINISHED_NOTIFICATION_ID = 1
     }
 }

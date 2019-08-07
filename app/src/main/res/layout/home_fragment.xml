@@ -30,6 +30,8 @@
             android:id="@+id/swipe_to_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:isRefreshing="@{result instanceof Result.Loading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,8 +42,6 @@
                 android:id="@+id/deals_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 app:layoutManager="LinearLayoutManager"
                 tools:listitem="@layout/deal_item" />
 

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dev.amr.travelmantics">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".TravelmanticsApp"
         android:allowBackup="true"
@@ -21,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

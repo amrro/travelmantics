@@ -16,7 +16,7 @@ import dev.amr.travelmantics.R
 import dev.amr.travelmantics.databinding.AddDealFragmentBinding
 import dev.amr.travelmantics.util.toast
 import dev.amr.travelmantics.worker.NewDealWorker
-import dev.amr.travelmantics.worker.UploaderWorker
+import dev.amr.travelmantics.worker.ImageUploaderWorker
 import timber.log.Timber
 
 class AddDealFragment : Fragment() {
@@ -52,9 +52,9 @@ class AddDealFragment : Fragment() {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val uploadImageWorker: OneTimeWorkRequest = OneTimeWorkRequestBuilder<UploaderWorker>()
+        val uploadImageWorker: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ImageUploaderWorker>()
             .setConstraints(constraints)
-            .setInputData(workDataOf(UploaderWorker.KEY_IMAGE_URI to uploadUri.toString()))
+            .setInputData(workDataOf(ImageUploaderWorker.KEY_IMAGE_URI to uploadUri.toString()))
             .build()
 
         val newDealWorker: OneTimeWorkRequest = OneTimeWorkRequestBuilder<NewDealWorker>()
