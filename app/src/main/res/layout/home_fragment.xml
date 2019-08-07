@@ -40,6 +40,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/deals_list"
+                goneUnless="@{result instanceof Result.Success}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="LinearLayoutManager"
