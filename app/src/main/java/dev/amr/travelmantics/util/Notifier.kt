@@ -1,3 +1,26 @@
+/**
+ *                           MIT License
+ *
+ *                 Copyright (c) 2019 Amr Elghobary
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package dev.amr.travelmantics.util
 
 import android.app.Notification
@@ -25,13 +48,11 @@ object Notifier {
      */
     private const val NOTIFICATION_TAG = "OneTime"
 
-
     /**
      * Currently, all constructed Notifications will be posted on this NotificationChannel.
      */
     private const val CHANNEL_ID_DEFAULT = "default"
     private var notificationManager: NotificationManager? = null
-
 
     /**
      * This data class reprensent the common data needed for any notification, e.g. title, text,
@@ -41,8 +62,8 @@ object Notifier {
         var notificationId: Int? = null,
         var contentTitle: String = "",
         var contentText: String = "",
-        var pendingIntent
-        : PendingIntent? = null,
+        var pendingIntent:
+        PendingIntent? = null,
         var isAutoCancelable: Boolean = true,
         @DrawableRes var smallIcon: Int? = null
     )
@@ -74,7 +95,8 @@ object Notifier {
 
     fun progressable(
         context: Context,
-        max: Int = 100, progress: Int,
+        max: Int = 100,
+        progress: Int,
         isIndeterminate: Boolean = false,
         init: NotificationData.() -> Unit
     ) {
@@ -95,7 +117,6 @@ object Notifier {
 
         notify(notificationId, builder.build())
     }
-
 
     /**
      * Cancels any notifications of this type previously shown.
@@ -133,7 +154,6 @@ object Notifier {
             .setTicker(data.contentTitle)
             .setContentIntent(data.pendingIntent)
     }
-
 
     private fun createDefaultChannel() {
         // Notification channel is added since android Oreo.
