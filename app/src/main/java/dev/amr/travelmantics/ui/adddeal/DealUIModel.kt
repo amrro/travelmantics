@@ -23,8 +23,10 @@
  */
 package dev.amr.travelmantics.ui.adddeal
 
+import android.net.Uri
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import dev.amr.travelmantics.util.ObservableViewModel
 
 class DealUIModel : ObservableViewModel() {
@@ -34,7 +36,10 @@ class DealUIModel : ObservableViewModel() {
     val title = MutableLiveData("")
     val price = MutableLiveData("")
     val description = MutableLiveData("")
-    val imageReady = MutableLiveData(false)
+    val fileUri = MutableLiveData<Uri>(null)
+    val imageReady = Transformations.map(fileUri) {
+          it != null
+    }
 
     init {
         areInputsReady.addSource(title) { areInputsReady.value = checkInputs() }

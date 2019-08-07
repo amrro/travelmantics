@@ -8,7 +8,7 @@
     <string name="upload_failure">Image Uploading failed to upload the image 🚧. Please try to upload the deal again.</string>
 
 
-    <string name="new_deal_success">The new deal: %1$s add successfully 👍.</string>
+    <string name="new_deal_success">The new deal: %1$s added successfully 👍.</string>
     <string name="new_deal_failure">The deal: %1$s failed to be added 🚧.</string>
     <string name="prompt_already_login">%1$s already signed in!</string>
     <string name="prompt_failed_to_login">Failed to login. Reason: %1$s</string>
