@@ -37,9 +37,7 @@ class DealUIModel : ObservableViewModel() {
     val price = MutableLiveData("")
     val description = MutableLiveData("")
     val fileUri = MutableLiveData<Uri>(null)
-    val imageReady = Transformations.map(fileUri) {
-          it != null
-    }
+    val imageReady = Transformations.map(fileUri) { it != null }
 
     init {
         areInputsReady.addSource(title) { areInputsReady.value = checkInputs() }

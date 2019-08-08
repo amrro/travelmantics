@@ -23,15 +23,18 @@
  */
 package dev.amr.travelmantics.data
 
+import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class TravelsRepository : DataSource {
     private val db: FirebaseFirestore = Firebase.firestore
+    private val storage = FirebaseStorage.getInstance().reference
 
     override suspend fun getDeals(): Result<List<Deal>> =
         suspendCoroutine { cont ->
@@ -58,4 +61,34 @@ class TravelsRepository : DataSource {
                     cont.resume(Result.Error(it))
                 }
         }
+
+    override fun uploadImageWithUri(
+        uri: Uri,
+        block: ((Result<Uri>, Int) -> Unit)?
+    ) {
+        // Get a reference to store file at photos/<FILENAME>.jpg
+        val photoRef = storage.child("deals").child(uri.lastPathSegment!!)
+        photoRef.putFile(uri)
+            .addOnProgressListener { taskSnapshot ->
+                val percentComplete = if (taskSnapshot.totalByteCount > 0) {
+                    (100 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount).toInt()
+                } else 0
+
+                block?.invoke(Result.Loading, percentComplete)
+            }.continueWithTask { task ->
+                // Forward any exceptions
+                if (!task.isSuccessful) {
+                    throw task.exception!!
+                }
+                // Request the public download URL
+                photoRef.downloadUrl
+            }
+            .addOnSuccessListener { block?.invoke(Result.Success(it), 100) }
+            .addOnFailureListener { block?.invoke(Result.Error(it), 0) }
+    }
 }
+
+data class UploadingProgress(
+    val progress: Int = 0,
+    val result: Result<Boolean>
+)

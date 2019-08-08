@@ -23,9 +23,13 @@
  */
 package dev.amr.travelmantics.data
 
+import android.net.Uri
+
 interface DataSource {
 
     suspend fun getDeals(): Result<List<Deal>>
 
     suspend fun newDeal(deal: Deal): Result<Boolean>
+
+    fun uploadImageWithUri(uri: Uri, block: ((Result<Uri>, Int) -> Unit)? = null)
 }

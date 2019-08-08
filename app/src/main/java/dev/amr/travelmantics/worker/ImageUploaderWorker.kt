@@ -31,11 +31,10 @@ import androidx.core.net.toUri
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.google.firebase.storage.FirebaseStorage
 import dev.amr.travelmantics.MainActivity
 import dev.amr.travelmantics.R
+import dev.amr.travelmantics.data.TravelsRepository
 import dev.amr.travelmantics.util.Notifier
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -45,7 +44,7 @@ class ImageUploaderWorker(
 ) : CoroutineWorker(context, workerParams) {
 
     private val context = applicationContext
-    private val storage = FirebaseStorage.getInstance().reference
+    private val repository = TravelsRepository()
 
     override suspend fun doWork(): Result {
         val fileUri = inputData.getString(KEY_IMAGE_URI)?.toUri()
@@ -54,59 +53,31 @@ class ImageUploaderWorker(
     }
 
     private suspend fun uploadImageFromURI(fileUri: Uri): Result = suspendCoroutine { cont ->
-        Timber.d("uploadImageFromURI:src:$fileUri")
-
-        showProgressNotification(context.getString(R.string.progress_uploading), 0, 0)
-
-        // Get a reference to store file at photos/<FILENAME>.jpg
-        val photoRef = storage.child("deals")
-            .child(fileUri.lastPathSegment!!)
-
-        // Upload file to Firebase Storage
-        Timber.d("uploadImageFromURI:dst:%s", photoRef.path)
-        photoRef.putFile(fileUri).addOnProgressListener { taskSnapshot ->
-            showProgressNotification(
-                context.getString(R.string.progress_uploading),
-                taskSnapshot.bytesTransferred,
-                taskSnapshot.totalByteCount
-            )
-        }.continueWithTask { task ->
-            // Forward any exceptions
-            if (!task.isSuccessful) {
-                throw task.exception!!
+        repository.uploadImageWithUri(fileUri) { result, percentage ->
+            when (result) {
+                is dev.amr.travelmantics.data.Result.Success -> {
+                    showUploadFinishedNotification(result.data)
+                    cont.resume(Result.success(workDataOf(KEY_UPLOADED_URI to result.data.toString())))
+                }
+                is dev.amr.travelmantics.data.Result.Loading -> {
+                    showProgressNotification(context.getString(R.string.progress_uploading), percentage)
+                }
+                is dev.amr.travelmantics.data.Result.Error -> {
+                    showUploadFinishedNotification(null)
+                    cont.resume(Result.failure())
+                }
             }
-
-            Timber.d("uploadImageFromURI: upload success")
-
-            // Request the public download URL
-            photoRef.downloadUrl
-        }.addOnSuccessListener { uploadedUri ->
-            // Upload succeeded
-            Timber.d("uploadImageFromURI: getDownloadUri success")
-
-            showUploadFinishedNotification(uploadedUri)
-            cont.resume(Result.success(workDataOf(KEY_UPLOADED_URI to uploadedUri.toString())))
-        }.addOnFailureListener { exception ->
-            // Upload failed
-            Timber.e(exception, "uploadImageFromURI: upload failed")
-
-            showUploadFinishedNotification(null)
         }
     }
 
     /**
      * Show notification with a progress bar.
      */
-    private fun showProgressNotification(caption: String, completedUnits: Long, totalUnits: Long) {
-        var percentComplete = 0
-        if (totalUnits > 0) {
-            percentComplete = (100 * completedUnits / totalUnits).toInt()
-        }
-
+    private fun showProgressNotification(caption: String, percent: Int) {
         Notifier
             .progressable(
                 context,
-                100, percentComplete
+                100, percent
             ) {
                 notificationId = PROGRESS_NOTIFICATION_ID
                 contentTitle = context.getString(R.string.app_name)
@@ -116,10 +87,23 @@ class ImageUploaderWorker(
     }
 
     /**
-     * Show notification that the activity finished.
+     * This dismisses any shown progress notification, then
      */
-    private fun showFinishedNotification(caption: String, intent: Intent/*, success: Boolean*/) {
-        // Make PendingIntent for notification
+    private fun showUploadFinishedNotification(downloadUrl: Uri?) {
+        // Hide the progress notification
+        Notifier
+            .dismissNotification(context, PROGRESS_NOTIFICATION_ID)
+
+        val caption =
+            if (downloadUrl != null) context.getString(R.string.upload_success)
+            else context.getString(
+                R.string.upload_failure
+            )
+
+        // Make Intent to MainActivity
+        val intent = Intent(applicationContext, MainActivity::class.java)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+
         val pendingIntent = PendingIntent.getActivity(
             applicationContext, 0 /* requestCode */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT
@@ -129,28 +113,7 @@ class ImageUploaderWorker(
             contentTitle = applicationContext.getString(R.string.app_name)
             contentText = caption
             this.pendingIntent = pendingIntent
-        }
-    }
-
-    /**
-     * Show a notification for a finished upload.
-     */
-    private fun showUploadFinishedNotification(downloadUrl: Uri?) {
-        // Hide the progress notification
-        Notifier
-            .dismissNotification(context, PROGRESS_NOTIFICATION_ID)
-
-        // Make Intent to MainActivity
-        val intent = Intent(applicationContext, MainActivity::class.java)
-            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-
-        val success = downloadUrl != null
-        val caption =
-            if (success) context.getString(R.string.upload_success) else context.getString(
-                R.string.upload_failure
-            )
-        showFinishedNotification(caption, intent/*, success*/)
-    }
+        } }
 
     companion object {
 

@@ -82,7 +82,6 @@ class AddDealFragment : Fragment() {
             )
             .build()
 
-
         WorkManager.getInstance(requireContext()).let { manager ->
             manager
                 .beginWith(uploadImageWorker)
