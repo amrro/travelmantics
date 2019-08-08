@@ -43,37 +43,31 @@ class NewDealWorker(
     private val context = applicationContext
 
     override suspend fun doWork(): Result {
-        val title = inputData.getString(KEY_TITLE)
-        val price = inputData.getInt(KEY_PRICE, 0)
-        val description = inputData.getString(KEY_DESC)
-        val imageUri = inputData.getString(ImageUploaderWorker.KEY_UPLOADED_URI)
-
-        require(!(title.isNullOrEmpty() || price <= 0 || description.isNullOrEmpty() || imageUri.isNullOrEmpty()))
+        val title = checkNotNull(inputData.getString(KEY_TITLE))
+        val price = checkNotNull(inputData.getInt(KEY_PRICE, 0))
+        val description = checkNotNull(inputData.getString(KEY_DESC))
+        val imageUri = checkNotNull(inputData.getString(ImageUploaderWorker.KEY_UPLOADED_URI))
 
         val newDeal = Deal("", title, price, description, imageUri)
 
         // TODO: add deep link, deal detail fragment, then take user to there from notification.
-        // Make Intent to MainActivity
         val intent = Intent(context, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
         when (repository.newDeal(newDeal)) {
             is dev.amr.travelmantics.data.Result.Success -> {
                 showFinishedNotification(
-                    context.getString(R.string.new_deal_success, title),
-                    intent
+                    title, context.getString(R.string.new_deal_success), intent
                 )
                 return Result.success()
             }
             is dev.amr.travelmantics.data.Result.Error -> {
                 showFinishedNotification(
-                    context.getString(R.string.new_deal_failure, title),
-                    intent
+                    title, context.getString(R.string.new_deal_failure), intent
                 )
                 return Result.failure()
             }
-            dev.amr.travelmantics.data.Result.Loading -> { /* do nothing club. */
-            }
+            dev.amr.travelmantics.data.Result.Loading -> { /* do nothing club. */ }
         }
 
         return Result.failure()
@@ -82,17 +76,22 @@ class NewDealWorker(
     /**
      * Show notification that the activity finished.
      */
-    private fun showFinishedNotification(caption: String, intent: Intent/*, success: Boolean*/) {
-        // Make PendingIntent for notification
+    private fun showFinishedNotification(title: String, caption: String, intent: Intent) {
+
+        Notifier.dismissNotification(context, title.hashCode())
+
         val pendingIntent = PendingIntent.getActivity(
             context, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         Notifier.show(context) {
-            contentTitle = context.getString(R.string.app_name)
+            contentTitle = title
             contentText = caption
             this.pendingIntent = pendingIntent
+
+            // title is used to distinguish between and add as many notifications as new added deals.
+            notificationId = title.hashCode()
         }
     }
 

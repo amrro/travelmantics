@@ -29,8 +29,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.net.toUri
 import androidx.work.CoroutineWorker
+import androidx.work.Data
 import androidx.work.WorkerParameters
-import androidx.work.workDataOf
 import dev.amr.travelmantics.MainActivity
 import dev.amr.travelmantics.R
 import dev.amr.travelmantics.data.TravelsRepository
@@ -45,6 +45,7 @@ class ImageUploaderWorker(
 
     private val context = applicationContext
     private val repository = TravelsRepository()
+    private var title: String =  checkNotNull(inputData.getString(NewDealWorker.KEY_TITLE))
 
     override suspend fun doWork(): Result {
         val fileUri = inputData.getString(KEY_IMAGE_URI)?.toUri()
@@ -57,10 +58,18 @@ class ImageUploaderWorker(
             when (result) {
                 is dev.amr.travelmantics.data.Result.Success -> {
                     showUploadFinishedNotification(result.data)
-                    cont.resume(Result.success(workDataOf(KEY_UPLOADED_URI to result.data.toString())))
+
+                    val data = Data.Builder()
+                        .putAll(inputData)
+                        .putString(KEY_UPLOADED_URI, result.data.toString())
+
+                    cont.resume(Result.success(data.build()))
                 }
                 is dev.amr.travelmantics.data.Result.Loading -> {
-                    showProgressNotification(context.getString(R.string.progress_uploading), percentage)
+                    showProgressNotification(
+                        context.getString(R.string.progress_uploading),
+                        percentage
+                    )
                 }
                 is dev.amr.travelmantics.data.Result.Error -> {
                     showUploadFinishedNotification(null)
@@ -79,8 +88,8 @@ class ImageUploaderWorker(
                 context,
                 100, percent
             ) {
-                notificationId = PROGRESS_NOTIFICATION_ID
-                contentTitle = context.getString(R.string.app_name)
+                notificationId = title.hashCode()
+                contentTitle = title
                 contentText = caption
                 smallIcon = R.drawable.notif_add_a_photo_blue_24dp
             }
@@ -92,11 +101,11 @@ class ImageUploaderWorker(
     private fun showUploadFinishedNotification(downloadUrl: Uri?) {
         // Hide the progress notification
         Notifier
-            .dismissNotification(context, PROGRESS_NOTIFICATION_ID)
+            .dismissNotification(context, title.hashCode())
 
-        val caption =
-            if (downloadUrl != null) context.getString(R.string.upload_success)
-            else context.getString(
+        if (downloadUrl != null) return
+
+        val caption = context.getString(
                 R.string.upload_failure
             )
 
@@ -110,16 +119,15 @@ class ImageUploaderWorker(
         )
 
         Notifier.show(context) {
-            contentTitle = applicationContext.getString(R.string.app_name)
+            notificationId = title.hashCode()
+            contentTitle = title
             contentText = caption
             this.pendingIntent = pendingIntent
-        } }
+        }
+    }
 
     companion object {
-
         const val KEY_IMAGE_URI: String = "key-image-uri"
         const val KEY_UPLOADED_URI: String = "key-uploaded-uri"
-
-        internal const val PROGRESS_NOTIFICATION_ID = 0
     }
 }

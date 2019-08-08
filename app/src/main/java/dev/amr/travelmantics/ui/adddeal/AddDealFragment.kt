@@ -67,19 +67,16 @@ class AddDealFragment : Fragment() {
         val uploadImageWorker: OneTimeWorkRequest = OneTimeWorkRequestBuilder<ImageUploaderWorker>()
             .setConstraints(constraints)
             .setInputData(
-                workDataOf(ImageUploaderWorker.KEY_IMAGE_URI to binding.dealModel?.fileUri?.value.toString())
+                workDataOf(
+                    NewDealWorker.KEY_TITLE to binding.dealModel?.title?.value,
+                    NewDealWorker.KEY_PRICE to binding.dealModel?.price?.value?.toInt(),
+                    NewDealWorker.KEY_DESC to binding.dealModel?.description?.value,
+                    ImageUploaderWorker.KEY_IMAGE_URI to binding.dealModel?.fileUri?.value.toString())
             )
             .build()
 
         val newDealWorker: OneTimeWorkRequest = OneTimeWorkRequestBuilder<NewDealWorker>()
             .setConstraints(constraints)
-            .setInputData(
-                workDataOf(
-                    NewDealWorker.KEY_TITLE to binding.dealModel?.title?.value,
-                    NewDealWorker.KEY_PRICE to binding.dealModel?.price?.value?.toInt(),
-                    NewDealWorker.KEY_DESC to binding.dealModel?.description?.value
-                )
-            )
             .build()
 
         WorkManager.getInstance(requireContext()).let { manager ->
